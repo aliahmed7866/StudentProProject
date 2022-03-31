@@ -1,0 +1,10 @@
+# IDE specific
+.vscode
+.idea
+
+# API
+API/venv
+API/__pycache__
+API/data
+
+# Website
