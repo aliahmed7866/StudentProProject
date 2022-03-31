@@ -1,23 +1,24 @@
 # Main script for the API
 
+import logic
 import models
-from typing import List
-from os import mkdir, path
+import config
+from db import DB
 from fastapi import FastAPI, status, HTTPException
 
 
-DATA_FOLDER = "data"
-if not path.isdir(DATA_FOLDER):
-    print("Data folder not found. Creating.")
-    mkdir(DATA_FOLDER)
-    # TODO: Have this automatically run the setup.sql script. Move to logic?
-
+db = DB(config.sqlite_db_file)
 
 app = FastAPI(
     title="StudentPro API",
     description="Allows team members to access data required for the front-end.",
     version="0.0.1"
 )
+
+
+@app.on_event("startup")
+async def startup_event():
+    await logic.setup(db)
 
 
 @app.get("/")
