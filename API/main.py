@@ -72,7 +72,9 @@ async def get_reminders(stu_id: int, limit: int = 10):
 
 
 @app.post("/reminder",
-          description="Add a reminder to a student's reminders"
+          description="Add a reminder to a student's reminders",
+          response_model=models.Reminder,
+          status_code=status.HTTP_201_CREATED
           )
 async def add_reminder(stu_id: int, reminder: models.ReminderIn):
     return

@@ -56,7 +56,7 @@ class Reminder(BaseModel):
     id: int
     title: str
     time: datetime
-    added_by_user: bool
+    added_by_user: Optional[bool] = True
 
 
 class Timetable(BaseModel):
