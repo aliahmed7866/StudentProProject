@@ -69,6 +69,44 @@ class Queries:
                         ON re.reminder_id = r.id
                     WHERE p.id = ?;
                     """
+    get_next_reminder_id = """
+                    SELECT id 
+                    FROM reminder 
+                    ORDER BY id DESC 
+                    LIMIT 1
+                    """
+    get_latest_reminder = """
+                    SELECT *
+                    FROM reminder
+                    ORDER BY id DESC 
+                    LIMIT 1
+                    """
+    add_reminder = f"""
+                    INSERT INTO reminder (
+                        id, 
+                        title, 
+                        time
+                    ) VALUES (
+                        ({get_next_reminder_id}) + 1,
+                        ?,
+                        ?
+                    );
+                    """
+    add_reminder_link = f"""
+                    INSERT INTO person_reminder (
+                        person_id, 
+                        reminder_id, 
+                        user_added
+                    ) VALUES (
+                        ?, 
+                        ({get_next_reminder_id}), 
+                        true
+                    );
+                    """
+    delete_reminder = """
+                    DELETE FROM person_reminder
+                    WHERE person_id = ? AND reminder_id = ?
+                    """
 
 
 class DB:
@@ -82,6 +120,14 @@ class DB:
             with closing(sqlite3.connect(self.path)) as con:
                 with closing(con.cursor()) as cur:
                     return cur.execute(query, params).fetchall()
+
+    async def execute_query(self, query: str, params: tuple = tuple()):
+        """Execute a single SQL query that isn't SELECT."""
+        async with self.lock:
+            with closing(sqlite3.connect(self.path)) as con:
+                with closing(con.cursor()) as cur:
+                    cur.execute(query, params)
+                    con.commit()
 
     async def execute_script(self, script: str):
         """Execute a script (multiple statements, seperated with ;) and commit it to the database."""
