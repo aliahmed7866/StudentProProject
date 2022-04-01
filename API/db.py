@@ -89,4 +89,4 @@ class DB:
             with closing(sqlite3.connect(self.path)) as con:
                 with closing(con.cursor()) as cur:
                     cur.executescript(script)
-                    cur.commit()
+                    con.commit()
