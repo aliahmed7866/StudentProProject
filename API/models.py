@@ -4,7 +4,7 @@ from datetime import datetime
 from enum import Enum
 
 
-class Student(BaseModel):
+class Person(BaseModel):
     """A class representing a person (student, staff member)."""
     id: int
     first_name: str
@@ -32,9 +32,11 @@ class Event(BaseModel):
     type: EventType
     location: str
     description: Optional[str] = None
-    staff_member: Optional[str] = None
+    staff_member: Person
     start_time: datetime
     end_time: datetime
+    present: Optional[bool] = False
+    mins_late: Optional[int] = 0
 
 
 class Email(BaseModel):
@@ -42,9 +44,11 @@ class Email(BaseModel):
     id: int
     subject: str
     content: str
+    sender_name: str
     sender_email: str
     sender_image_url: str
     time: datetime
+    read: Optional[bool] = False
 
 
 class Reminder(BaseModel):
