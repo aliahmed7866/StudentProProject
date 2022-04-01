@@ -63,7 +63,7 @@ CREATE TABLE person_email (
     person_id INT NOT NULL,
     email_id INT NOT NULL,
     read BOOLEAN DEFAULT false,
-    PRIMARY KEY (person_id, person_id),
+    PRIMARY KEY (person_id, email_id),
     FOREIGN KEY (person_id) REFERENCES person(id),
     FOREIGN KEY (email_id) REFERENCES email(id)
 );
@@ -72,7 +72,7 @@ CREATE TABLE person_reminder (
     person_id INT NOT NULL,
     reminder_id INT NOT NULL,
     user_added BOOLEAN DEFAULT false,
-    PRIMARY KEY (person_id, person_id),
+    PRIMARY KEY (person_id, reminder_id),
     FOREIGN KEY (person_id) REFERENCES person(id),
     FOREIGN KEY (reminder_id) REFERENCES reminder(id)
 );
