@@ -30,18 +30,16 @@ async def root():
          response_model=models.StudentIDs,
          description="Get a list of all student IDs."
          )
-async def get_students():
-    return
-    # TODO: Add student logic
+async def get_student_ids():
+    return {'ids': await logic.get_student_ids(db)}
 
 
 @app.get("/student",
          description="Get a student's details via their ID.",
-         response_model=models.Student
+         response_model=models.Person
          )
 async def get_student(stu_id: int):
-    return
-    # TODO: Add student logic
+    return await logic.get_student(db, stu_id)
 
 
 @app.get("/timetable",

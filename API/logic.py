@@ -2,6 +2,9 @@ import sqlite3
 
 import config
 from os import mkdir, path, remove
+from db import Queries
+from fastapi import HTTPException, status
+from typing import List
 
 
 def _print(message):
@@ -40,3 +43,28 @@ async def setup(db):
     if passed:
         _print("All checks have been passed.")
     return passed
+
+
+async def validate_student_id(db, stu_id) -> list:
+    try:
+        return (await db.select_query(Queries.get_student, (stu_id,)))[0]
+    except IndexError:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student with that ID not found")
+
+
+async def get_student_ids(db) -> List[int]:
+    ids = []
+    for row in await db.select_query(Queries.get_student_ids):
+        ids.append(row[0])
+    return ids
+
+
+async def get_student(db, stu_id: int) -> dict:
+    stu = await validate_student_id(db, stu_id)
+    return {
+        'id': stu[0],
+        'first_name': stu[1],
+        'last_name': stu[2],
+        'institute': stu[3],
+        'image_url': stu[4]
+    }
