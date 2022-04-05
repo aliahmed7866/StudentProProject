@@ -37,7 +37,8 @@ class Queries:
                         ON pe.event_id = e.id
                     INNER JOIN person AS s
                         ON e.staff_id = s.id
-                    WHERE p.id = ?;
+                    WHERE p.id = ?
+                    LIMIT ?;
                     """
     get_emails = """
                     SELECT 
@@ -54,7 +55,9 @@ class Queries:
                         ON p.id = pe.person_id
                     INNER JOIN email AS e
                         ON pe.email_id = e.id
-                    WHERE p.id = ?;
+                    WHERE p.id = ?
+                    ORDER BY e.time DESC
+                    LIMIT ?;
                     """
     get_reminders = """
                     SELECT 
@@ -67,7 +70,9 @@ class Queries:
                         ON p.id = re.person_id
                     INNER JOIN reminder AS r
                         ON re.reminder_id = r.id
-                    WHERE p.id = ?;
+                    WHERE p.id = ?
+                    ORDER BY r.time DESC
+                    LIMIT ?;
                     """
     get_next_reminder_id = """
                     SELECT id 
