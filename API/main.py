@@ -46,27 +46,24 @@ async def get_student(stu_id: int):
          description="Get a student's timetable via their ID.",
          response_model=models.Timetable
          )
-async def get_timetable(stu_id: int, limit: int = 10):
-    return
-    # TODO: Add timetable logic
+async def get_timetable(stu_id: int, limit: Optional[int] = 10):
+    return {'events': await logic.get_timetable(db, stu_id, limit)}
 
 
 @app.get("/emails",
          description="Get a student's emails via their ID.",
          response_model=models.Emails
          )
-async def get_emails(stu_id: int, limit: int = 10):
-    return
-    # TODO: Add emails logic
+async def get_emails(stu_id: int, limit: Optional[int] = 10):
+    return {'emails': await logic.get_emails(db, stu_id, limit)}
 
 
 @app.get("/reminders",
          description="Get a student's reminders via their ID.",
          response_model=models.Reminders
          )
-async def get_reminders(stu_id: int, limit: int = 10):
-    return
-    # TODO: Add reminders logic
+async def get_reminders(stu_id: int, limit: Optional[int] = 10):
+    return {'reminders': await logic.get_reminders(db, stu_id, limit)}
 
 
 @app.post("/reminder",
