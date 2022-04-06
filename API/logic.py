@@ -132,3 +132,20 @@ async def get_reminders(db, stu_id: int, limit: int) -> List[dict]:
             }
         )
     return reminders_list
+
+
+async def add_reminder(db, stu_id: int, reminder):
+    await validate_student_id(db, stu_id)
+    await db.execute_query(Queries.add_reminder, (reminder.title, reminder.time))
+    await db.execute_query(Queries.add_reminder_link, (stu_id,))
+    reminder = (await db.select_query(Queries.get_latest_reminder))[0]
+    return {
+        'id': reminder[0],
+        'title': reminder[1],
+        'time': reminder[2]
+    }
+
+
+async def delete_reminder(db, stu_id: int, reminder_id: int):
+    await validate_student_id(db, stu_id)
+    await db.execute_query(Queries.delete_reminder, (stu_id, reminder_id))

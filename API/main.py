@@ -5,6 +5,7 @@ import models
 import config
 from db import DB
 from fastapi import FastAPI, status, HTTPException
+from typing import Optional
 
 
 db = DB(config.sqlite_db_file)
@@ -72,13 +73,11 @@ async def get_reminders(stu_id: int, limit: Optional[int] = 10):
           status_code=status.HTTP_201_CREATED
           )
 async def add_reminder(stu_id: int, reminder: models.ReminderIn):
-    return
-    # TODO: Add reminder logic
+    return await logic.add_reminder(db, stu_id, reminder)
 
 
 @app.delete("/reminder",
             description="Remove a reminder"
             )
-async def delete_reminder(reminder_id: int):
-    return
-    # TODO: Add reminder logic
+async def delete_reminder(stu_id: int, reminder_id: int):
+    await logic.delete_reminder(db, stu_id, reminder_id)
