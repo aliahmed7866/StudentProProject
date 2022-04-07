@@ -13,7 +13,7 @@ db = DB(config.sqlite_db_file)
 app = FastAPI(
     title="StudentPro API",
     description="Allows team members to access data required for the front-end.",
-    version="0.0.1"
+    version="0.1.0"
 )
 
 
