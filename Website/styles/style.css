@@ -11,7 +11,9 @@ body{
     margin:auto;
 }
 
-
+#offlineform{
+    display: none;
+}
 
 .card-img-top{
     background-color: white;
@@ -21,13 +23,14 @@ body{
 #revertModeBtn{
     display:none;
 }
-*{
-    user-select: none;
+.row>a{
+    text-align:left;
 }
 a{
     text-decoration: none;
     text-align: center;
     cursor: pointer;
+    margin:0 ;
 }
 .col-sm,.col-sm-3{
     padding:2vw ;
