@@ -37,7 +37,7 @@ class Queries:
                         ON pe.event_id = e.id
                     INNER JOIN person AS s
                         ON e.staff_id = s.id
-                    WHERE p.id = ?
+                    WHERE p.id = ? AND e.end_time >= datetime('now')
                     LIMIT ?;
                     """
     get_emails = """
@@ -70,7 +70,7 @@ class Queries:
                         ON p.id = re.person_id
                     INNER JOIN reminder AS r
                         ON re.reminder_id = r.id
-                    WHERE p.id = ?
+                    WHERE p.id = ? AND r.time >= datetime('now', '-6 hours')
                     ORDER BY r.time DESC
                     LIMIT ?;
                     """
