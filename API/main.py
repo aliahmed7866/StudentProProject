@@ -5,6 +5,7 @@ import models
 import config
 from db import DB
 from fastapi import FastAPI, status, HTTPException
+from typing import Optional
 
 
 db = DB(config.sqlite_db_file)
@@ -12,7 +13,7 @@ db = DB(config.sqlite_db_file)
 app = FastAPI(
     title="StudentPro API",
     description="Allows team members to access data required for the front-end.",
-    version="0.0.1"
+    version="0.1.0"
 )
 
 
@@ -46,27 +47,24 @@ async def get_student(stu_id: int):
          description="Get a student's timetable via their ID.",
          response_model=models.Timetable
          )
-async def get_timetable(stu_id: int, limit: int = 10):
-    return
-    # TODO: Add timetable logic
+async def get_timetable(stu_id: int, limit: Optional[int] = 10):
+    return {'events': await logic.get_timetable(db, stu_id, limit)}
 
 
 @app.get("/emails",
          description="Get a student's emails via their ID.",
          response_model=models.Emails
          )
-async def get_emails(stu_id: int, limit: int = 10):
-    return
-    # TODO: Add emails logic
+async def get_emails(stu_id: int, limit: Optional[int] = 10):
+    return {'emails': await logic.get_emails(db, stu_id, limit)}
 
 
 @app.get("/reminders",
          description="Get a student's reminders via their ID.",
          response_model=models.Reminders
          )
-async def get_reminders(stu_id: int, limit: int = 10):
-    return
-    # TODO: Add reminders logic
+async def get_reminders(stu_id: int, limit: Optional[int] = 10):
+    return {'reminders': await logic.get_reminders(db, stu_id, limit)}
 
 
 @app.post("/reminder",
@@ -75,13 +73,11 @@ async def get_reminders(stu_id: int, limit: int = 10):
           status_code=status.HTTP_201_CREATED
           )
 async def add_reminder(stu_id: int, reminder: models.ReminderIn):
-    return
-    # TODO: Add reminder logic
+    return await logic.add_reminder(db, stu_id, reminder)
 
 
 @app.delete("/reminder",
             description="Remove a reminder"
             )
-async def delete_reminder(reminder_id: int):
-    return
-    # TODO: Add reminder logic
+async def delete_reminder(stu_id: int, reminder_id: int):
+    await logic.delete_reminder(db, stu_id, reminder_id)
