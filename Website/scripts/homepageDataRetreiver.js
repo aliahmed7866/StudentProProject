@@ -1,33 +1,49 @@
-window.onload=getData;
+window.onload=getStudentData;
 var stuList=[];
-let studentId=stuList(Math.floor(Math.random() * stuList.length));
-let studentEndUrl=''+studentId;
-let timetableEndUrl=''+studentId;
-let remindersEndUrl=''+studentId;
-let emailsEndUrl=''+studentId;
+let studentId;
+
+let studentEndUrl;
+let timetableEndUrl;
+let remindersEndUrl;
+let emailsEndUrl;
 function getStudentData(){
-    fetch(studentEndUrl, 'GET')
-	.then(response => response.json())
-	.then(response => console.log(response))
-	.catch(err => console.error(err));
+  let studentsListUrl= 'https://studentpro-api.herokuapp.com/students';
+
+  fetch("https://studentpro-api.herokuapp.com/students", {
+  headers: {
+    Accept: "application/json"
+  }
+})
+.then(response => response.json())
+.then(response => {
+  console.log(response);
+  stuList=response.ids;
+  studentId=stuList[Math.floor(Math.random() * stuList.length)];
+  studentEndUrl='https://studentpro-api.herokuapp.com/student?stu_id='+studentId;
+  return fetch(studentEndUrl);
+})
+.then(response => response.json())
+.then(response => {
+  console.log(response);
+  timetableEndUrl='https://studentpro-api.herokuapp.com/timetable?stu_id='+studentId+'&limit=10';
+  return fetch(timetableEndUrl);
+})
+.then(response => response.json())
+.then(response => {
+  console.log(response);
+  remindersEndUrl='https://studentpro-api.herokuapp.com/reminders?stu_id='+studentId+'&limit=10';
+  return fetch(remindersEndUrl);
+})
+.then(response => response.json())
+.then(response => {
+  console.log(response);
+  emailsEndUrl='https://studentpro-api.herokuapp.com/emails?stu_id='+studentId+'&limit=10';
+  return fetch(emailsEndUrl);
+})
+.then(response => response.json())
+.then(response => {
+  console.log(response);
+})
+
 }
-/*const url = 'https://api.spacexdata.com/v4';
-
-const result = fetch(`${url}/launches/latest`, { method: 'get' })
-  .then(response => response.json()) // pass the data as promise to next then block
-  .then(data => {
-    const rocketId = data.rocket;
-
-    console.log(rocketId, '\n');
-  
-    return fetch(`${url}/rockets/${rocketId}`); // make a 2nd request and return a promise
-  })
-  .then(response => response.json())
-  .catch(err => {
-    console.error('Request failed', err)
-  })
-
-// I'm using the result const to show that you can continue to extend the chain from the returned promise
-result.then(r => {
-  console.log(r.first_stage); // 2nd request result first_stage property
-});*/
+ 
