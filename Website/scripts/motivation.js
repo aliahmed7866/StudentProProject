@@ -1,3 +1,4 @@
+//this will eventually need merging  with homepageDataRetreiver script as we cannot have 2 window onload for one webpage
 window.onload=displayQuote
 function displayQuote(){
 var message = new Array(12);
@@ -15,6 +16,6 @@ message[9] = "Doing the best at this moment puts you in the best place for the n
 message[10] = "If You Are Working On Something That You Really Care About, You Don't Have To Be Pushed. The Vision Pulls You - Steve Jobs ";
 message[11] = "A person who never made a mistake never tried anything new - Albert Einstein ";
 var element = document.getElementById("motivationalQuote");
-element.innerHTML=message[Math.floor(Math.random() * 12)];
+element.innerHTML=message[Math.floor(Math.random() * message.length)];
 
 }
