@@ -78,3 +78,7 @@ class ReminderIn(BaseModel):
     """A class representing a reminder which is passed to the API when adding them"""
     title: str
     time: datetime
+
+
+class Message(BaseModel):
+    detail: str
