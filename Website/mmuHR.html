@@ -1,133 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Student Pro</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="scripts/mmuHR.js"></script>
-    <link rel="stylesheet" href="styles/style.css">
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <div class="container-fluid">
-        <a href="index.html">
-          <img src="assets/logosp.png" class="navbar-brand">
-        </a>
-        <a class="navbar-brand" href="#">MMU Harvard Referencing</a>
-      </div>
-    </nav>
-    <div id="mainBody">
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Instructions</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+   <head>
+      <title>Student Pro</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="scripts/mmuHR.js"></script>
+      <link rel="stylesheet" href="styles/style.css">
+   </head>
+   <body>
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+         <div class="container-fluid">
+            <a href="index.html">
+            <img src="assets/logosp.png" class="navbar-brand">
+            </a>
+            <a class="navbar-brand" href="#">MMU Harvard Referencing</a>
+         </div>
+      </nav>
+      <div id="mainBody">
+         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Instructions</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <p> Type in the fields by taking data from your resource (e.g. Books, Articles and Websites). This data will be formatted into MMU Harvard Referencing. </p>
+                     <p> The results will be displayed in the Result box below. </p>
+                     <p> If there are any errors, you will be notified accordingly.</p>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+               </div>
             </div>
-            <div class="modal-body">
-              <p> Type in the fields by taking data from your resource (e.g. Books, Articles and Websites). This data will be formatted into MMU Harvard Referencing. </p>
-              <p> The results will be displayed in the Result box below. </p>
-              <p> If there are any errors, you will be notified accordingly.</p>
+         </div>
+         <form>
+            <div class="form-check form-check-inline">
+               <input type="radio" class="form-check-input" id="radio1" name="optradio" value="online" checked onclick="displayOnlineForm()">Online <label class="form-check-label" for="radio1"></label>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div class="form-check form-check-inline">
+               <input type="radio" class="form-check-input" id="radio2" name="optradio" value="offline" onclick="displayOfflineForm()">Offline <label class="form-check-label" for="radio2"></label>
             </div>
-          </div>
-        </div>
-      </div>
-      <form>
-        <div class="form-check form-check-inline">
-          <input type="radio" class="form-check-input" id="radio1" name="optradio" value="online" checked onclick="displayOnlineForm()">Online <label class="form-check-label" for="radio1"></label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input type="radio" class="form-check-input" id="radio2" name="optradio" value="offline" onclick="displayOfflineForm()">Offline <label class="form-check-label" for="radio2"></label>
-        </div>
-      </form>
-      <br>
-        <form id="onlineform" onsubmit=" return formatMmuHRonline(srcTitle,srcProvName, author,url,pubDate, accDate)">
-        <div class="input-group mb-3">
-          <span class="input-group-text">Title:</span>
-          <input type="text" class="form-control" name="srcTitle" id="wordInputAuther" required>
-        </div>
-        <div class="input-group mb-3">
-          <span class="input-group-text">Author:</span>
-          <input type="text" class="form-control" name="author" id="wordInputAuther">
-        </div>
-        <div class="input-group mb-3">
-          <span class="input-group-text">Source Name:</span>
-          <input type="text" class="form-control" name="srcProvName" id="wordInputAuther">
-        </div>
-        <div class="input-group mb-3">
-          <span class="input-group-text">URL:</span>
-          <input type="text" class="form-control" name="url" id="wordInputUrl" required>
-        </div>
-        <div class="row g-3">
-          <div class="col-md-4">
+         </form>
+         <br>
+         <!--form with online resource referencing fields-->
+         <form id="onlineform" onsubmit=" return formatMmuHRonline(srcTitle,srcProvName, author,url,pubDate, accDate)">
+            <!--Passing the values to the referencing function using element names, return has been used to get return false from the function to stop the page from reloading -->
+            <div class="input-group mb-3">
+               <span class="input-group-text">Title:</span>
+               <input type="text" class="form-control" name="srcTitle" id="wordInputAuther" required>
+            </div>
+            <div class="input-group mb-3">
+               <span class="input-group-text">Author:</span>
+               <input type="text" class="form-control" name="author" id="wordInputAuther">
+            </div>
+            <div class="input-group mb-3">
+               <span class="input-group-text">Source Name:</span>
+               <input type="text" class="form-control" name="srcProvName" id="wordInputAuther">
+            </div>
+            <div class="input-group mb-3">
+               <span class="input-group-text">URL:</span>
+               <input type="text" class="form-control" name="url" id="wordInputUrl" required>
+            </div>
+            <div class="row g-3">
+               <div class="col-md-4">
+                  <div class="input-group">
+                     <span class="input-group-text">Date Published:</span>
+                     <input type="date" class="form-control" name="pubDate" id="datePubInput" required>
+                  </div>
+               </div>
+               <div class="col-md-4">
+                  <div class="input-group">
+                     <span class="input-group-text">Date Accessed:</span>
+                     <input type="date" class="form-control" name="accDate" id="dateAccInput" required>
+                  </div>
+               </div>
+            </div>
+            <br>
+            <br>
+            <button type="submit" class="btn btn-success" onclick="">Create</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> Help </button>
+         </form>
+         <!--form with offline resource referencing fields-->
+         <form id="offlineform" onsubmit="return formatMmuHRoffline(srcTitle,srcProvName, author,pages,pubDate)">
+            <!--Passing the values to the referencing function using element names, return has been used to get return false from the function to stop the page from reloading -->
+            <div class="input-group mb-3">
+               <span class="input-group-text">Title:</span>
+               <input type="text" class="form-control" name="srcTitle" id="wordInputAuther" required>
+            </div>
+            <div class="input-group mb-3">
+               <span class="input-group-text">Author:</span>
+               <input type="text" class="form-control" name="author" id="wordInputAuther">
+            </div>
+            <div class="input-group mb-3">
+               <span class="input-group-text">Pages:</span>
+               <input type="text" class="form-control" name="pages" id="wordInputAuther">
+            </div>
+            <div class="input-group mb-3">
+               <span class="input-group-text">Source Name:</span>
+               <input type="text" class="form-control" name="srcProvName" id="wordInputAuther" required>
+            </div>
             <div class="input-group">
-              <span class="input-group-text">Date Published:</span>
-              <input type="date" class="form-control" name="pubDate" id="datePubInput" required>
+               <span class="input-group-text">Date Published:</span>
+               <input type="date" class="form-control" name="pubDate" id="datePubInput" required>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="input-group">
-              <span class="input-group-text">Date Accessed:</span>
-              <input type="date" class="form-control" name="accDate" id="dateAccInput" required>
+            <br>
+            <br>
+            <br>
+            <button type="submit" class="btn btn-success" >Create</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> Help </button>
+         </form>
+         <br>
+         <br>
+         <div class="card text-white bg-success mb-3" style="max-width: 90vw; margin:0">
+            <div class="card-header">Result</div>
+            <div class="card-body">
+               <h5 class="card-title text-white">MMU Harvard Referencing </h5>
+               <p class="card-text" id="mmuHRref">Reference:</p>
+               <p class="card-text" id="mmuHRcit">Citation:</p>
             </div>
-          </div>
-        </div>
-        <br>
-        <br>
-        <button type="submit" class="btn btn-success" onclick="">Create</button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> Help </button>
-      
-        </form>
-        
-      <form id="offlineform" onsubmit="return formatMmuHRoffline(srcTitle,srcProvName, author,pages,pubDate)">
-        <div class="input-group mb-3">
-          <span class="input-group-text">Title:</span>
-          <input type="text" class="form-control" name="srcTitle" id="wordInputAuther" required>
-        </div>
-        <div class="input-group mb-3">
-          <span class="input-group-text">Author:</span>
-          <input type="text" class="form-control" name="author" id="wordInputAuther">
-        </div>
-        <div class="input-group mb-3">
-          <span class="input-group-text">Pages:</span>
-          <input type="text" class="form-control" name="pages" id="wordInputAuther">
-        </div>
-        <div class="input-group mb-3">
-          <span class="input-group-text">Source Name:</span>
-          <input type="text" class="form-control" name="srcProvName" id="wordInputAuther" required>
-        </div>
-            <div class="input-group">
-              <span class="input-group-text">Date Published:</span>
-              <input type="date" class="form-control" name="pubDate" id="datePubInput" required>
-            </div>
-      
-          
-        <br>
-        <br>
-        <br>
-        <button type="submit" class="btn btn-success" >Create</button>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> Help </button>
-      
-      </form>
-      <br>
-      <br>
-      <div class="card text-white bg-success mb-3" style="max-width: 90vw; margin:0">
-        <div class="card-header">Result</div>
-        <div class="card-body">
-          <h5 class="card-title text-white">MMU Harvard Referencing </h5>
-          <p class="card-text" id="mmuHRref">Reference:</p>
-          <p class="card-text" id="mmuHRcit">Citation:</p>
-        </div>
-        <button type="button" class="btn btn-primary" disabled onclick="copyReference()" id='copyBtn'> Copy to Clipboard </button>
-      
+            <button type="button" class="btn btn-primary" disabled onclick="copyReference()" id='copyBtn'> Copy to Clipboard </button>
+         </div>
+         <br>
+         <br>
       </div>
-      <br>
-      <br>
-    </div>
-  </body>
+   </body>
 </html>

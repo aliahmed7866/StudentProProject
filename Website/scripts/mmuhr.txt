@@ -11,7 +11,7 @@ function formatMmuHRonline(title, srcProvName, author, url, pubDate, accDate) {
     var daYear = dateAcc.getFullYear();
     var daDay = dateAcc.getDay();
     var daMonth = dateAcc.toLocaleString('default', { month: 'long' });
-    reference = surname + ", " + firstname + ". (" + dpYear + ")" + " \'" + title.value + "\' " + " " + srcProvName.value.italics() + " [" + "Online" + "] " + daDay + dateExten(daDay) + " " + daMonth + " [Accessed on " + daDay + dateExten(daDay) + " " + daMonth + " " + daYear + "] " + url.value;
+    reference = surname + ", " + firstname + ". (" + dpYear + ")" + " \'" + title.value + "\' " + " " + srcProvName.value.italics() + " [" + "Online" + "] " + daDay + dateExtend(daDay) + " " + daMonth + " [Accessed on " + daDay + dateExtend(daDay) + " " + daMonth + " " + daYear + "] " + url.value;
     citation = "(" + surname + ", " + dpYear + ")"
     document.querySelector("#mmuHRref").innerHTML = "Reference: " + reference;
     document.querySelector("#mmuHRcit").innerHTML = "Citation: " + citation;
@@ -40,7 +40,7 @@ function copyReference() {
     document.body.removeChild(elem);
 }
 
-function dateExten(d) {
+function dateExtend(d) {
     if (d > 3 && d < 21) return 'th';
     switch (d % 10) {
         case 1:
