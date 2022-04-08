@@ -37,7 +37,8 @@ async def get_student_ids():
 
 @app.get("/student",
          description="Get a student's details via their ID.",
-         response_model=models.Person
+         response_model=models.Person,
+         responses={404: {"model": models.Message}}
          )
 async def get_student(stu_id: int):
     return await logic.get_student(db, stu_id)
@@ -45,7 +46,8 @@ async def get_student(stu_id: int):
 
 @app.get("/timetable",
          description="Get a student's timetable via their ID.",
-         response_model=models.Timetable
+         response_model=models.Timetable,
+         responses={404: {"model": models.Message}}
          )
 async def get_timetable(stu_id: int, limit: Optional[int] = 10):
     return {'events': await logic.get_timetable(db, stu_id, limit)}
@@ -53,7 +55,8 @@ async def get_timetable(stu_id: int, limit: Optional[int] = 10):
 
 @app.get("/emails",
          description="Get a student's emails via their ID.",
-         response_model=models.Emails
+         response_model=models.Emails,
+         responses={404: {"model": models.Message}}
          )
 async def get_emails(stu_id: int, limit: Optional[int] = 10):
     return {'emails': await logic.get_emails(db, stu_id, limit)}
@@ -61,7 +64,8 @@ async def get_emails(stu_id: int, limit: Optional[int] = 10):
 
 @app.get("/reminders",
          description="Get a student's reminders via their ID.",
-         response_model=models.Reminders
+         response_model=models.Reminders,
+         responses={404: {"model": models.Message}}
          )
 async def get_reminders(stu_id: int, limit: Optional[int] = 10):
     return {'reminders': await logic.get_reminders(db, stu_id, limit)}
@@ -70,6 +74,7 @@ async def get_reminders(stu_id: int, limit: Optional[int] = 10):
 @app.post("/reminder",
           description="Add a reminder to a student's reminders",
           response_model=models.Reminder,
+          responses={404: {"model": models.Message}},
           status_code=status.HTTP_201_CREATED
           )
 async def add_reminder(stu_id: int, reminder: models.ReminderIn):
@@ -77,7 +82,8 @@ async def add_reminder(stu_id: int, reminder: models.ReminderIn):
 
 
 @app.delete("/reminder",
-            description="Remove a reminder"
+            description="Remove a reminder",
+            responses={404: {"model": models.Message}}
             )
 async def delete_reminder(stu_id: int, reminder_id: int):
     await logic.delete_reminder(db, stu_id, reminder_id)
