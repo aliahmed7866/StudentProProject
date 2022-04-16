@@ -5,6 +5,7 @@ import models
 import config
 from db import DB
 from fastapi import FastAPI, status, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 
 
@@ -14,6 +15,16 @@ app = FastAPI(
     title="StudentPro API",
     description="Allows team members to access data required for the front-end.",
     version="0.1.0"
+)
+origins = [
+    #this is currently empty, however, if we host our website then that can be added here
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'], #the app will currently allow requests from everywhere, this can be changed if we decide to host the website
+    allow_credentials=True,
+    allow_methods=['GET', 'POST', 'DELETE'],
+    allow_headers=["*"],
 )
 
 
