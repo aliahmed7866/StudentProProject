@@ -14,7 +14,7 @@ db = DB(config.sqlite_db_file)
 app = FastAPI(
     title="StudentPro API",
     description="Allows team members to access data required for the front-end.",
-    version="0.1.0"
+    version="0.1.1"
 )
 origins = [
     #this is currently empty, however, if we host our website then that can be added here
