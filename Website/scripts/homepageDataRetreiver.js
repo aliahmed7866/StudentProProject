@@ -4,14 +4,60 @@ let studentId;
 let studentEndUrl;
 let timetableEndUrl;
 let remindersEndUrl;
+let reminderUrl;
 let emailsEndUrl;
+let deadlinesContainer;
+let remindersList = [];
+
+function setReminder() {
+    let remTitle = document.querySelector("#reminderTitle").value;
+    let reminderDate = document.querySelector("#reminderDate").value;
+    let data = {
+        title: remTitle,
+        time: reminderDate
+    }
+    fetch(reminderUrl, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then(response => {
+            response.json();
+            refreshReminders();
+        })
+    return false;
+}
+
+function refreshReminders() {
+    fetch(remindersEndUrl, {
+            headers: {
+                Accept: "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            while (deadlinesContainer.firstChild) {
+                deadlinesContainer.removeChild(deadlinesContainer.firstChild);
+            }
+            reminderSetup(response);
+        })
+}
 
 function getStudentData() {
 
+    document.querySelector("#deadlinesContainer").addEventListener('click', function(event) {
+        for (i = 0; i < remindersList.length; i++) {
+            if (event.target.id == 'removeBtn' + remindersList[i]) {
+                removeReminder(remindersList[i])
+            };
+        }
+    });
     let upcomingLessonContainer = document.getElementById("upcomingLessonContainer");
     let emailsContainer = document.getElementById("emailsContainer");
     let studentsListUrl = 'https://studentpro-api.herokuapp.com/students';
-    let deadlinesContainer = document.getElementById("deadlinesContainer");
+    deadlinesContainer = document.getElementById("deadlinesContainer");
     fetch(studentsListUrl, {
             headers: {
                 Accept: "application/json"
@@ -19,21 +65,19 @@ function getStudentData() {
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response);
             stuList = response.ids;
             studentId = stuList[Math.floor(Math.random() * stuList.length)];
             studentEndUrl = 'https://studentpro-api.herokuapp.com/student?stu_id=' + studentId;
+            reminderUrl = 'https://studentpro-api.herokuapp.com/reminder?stu_id=' + studentId;
             return fetch(studentEndUrl);
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response);
             timetableEndUrl = 'https://studentpro-api.herokuapp.com/timetable?stu_id=' + studentId + '&limit=10';
             return fetch(timetableEndUrl);
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response);
             let el = document.createElement("p");
             let latestLesson = getLatestDate(response.events);
             el.innerHTML = "<b>Title: </b> " + response.events[latestLesson].title + "<br>" +
@@ -49,17 +93,7 @@ function getStudentData() {
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response);
-            for (i = 0; i < response.reminders.length; i++) {
-                let el = document.createElement("p");
-
-                let time = new Date(response.reminders[i].time);
-                let today = new Date();
-                let remDays = time.getDate() - today.getDate();
-                el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" + time.getDate() + "/" + time.getMonth() + "/" + time.getFullYear() + "<br>" + "<b> Days Remaining:</b> " + remDays + "<hr>";
-                deadlinesContainer.append(el);
-
-            }
+            reminderSetup(response);
             emailsEndUrl = 'https://studentpro-api.herokuapp.com/emails?stu_id=' + studentId + '&limit=10';
             return fetch(emailsEndUrl);
         })
@@ -69,7 +103,6 @@ function getStudentData() {
             let el = document.createElement("p");
             el.innerHTML = "<b>Subject:</b> " + response.emails[0].subject + "<br>" + "<b>Sender:</b> " + response.emails[0].sender_name;
             emailsContainer.append(el);
-            console.log(response);
         })
 
 }
@@ -93,4 +126,53 @@ function getLatestDate(response) {
     });
 
     return dateArray.indexOf(closest);
+}
+
+function reminderSetup(response) {
+    for (i = 0; i < response.reminders.length; i++) {
+        if (response.reminders[i].added_by_user = "true") {
+            let el = document.createElement("p");
+            let removeBtn = document.createElement("button");
+            let sepLine = document.createElement("hr");
+            removeBtn.innerHTML = "Remove";
+            removeBtn.classList.add("bg-warning");
+            removeBtn.classList.add("btn");
+            removeBtn.classList.add("text-danger");
+            let time = new Date(response.reminders[i].time);
+            let today = new Date();
+            let remDays = time.getDate() - today.getDate();
+            el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" + time.getDate() + "/" + time.getMonth() + "/" + time.getFullYear() + " (" + time.getHours() + ":" + time.getMinutes() + ") " + "<br>" + "<b> Days Remaining:</b> " + remDays;
+            reminderId = response.reminders[i].id;
+            removeBtn.id = "removeBtn" + reminderId;
+            el.id = "reminderText" + reminderId;
+            sepLine.id = "sepLine" + reminderId;
+            remindersList.push(reminderId);
+            deadlinesContainer.append(el);
+            deadlinesContainer.append(removeBtn);
+            deadlinesContainer.append(sepLine);
+        } else {
+            let el = document.createElement("p");
+            let sepLine = document.createElement("hr");
+            let time = new Date(response.reminders[i].time);
+            let today = new Date();
+            let remDays = time.getDate() - today.getDate();
+            el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" + time.getDate() + "/" + time.getMonth() + "/" + time.getFullYear() + "(" + time.getTime + ")" + "<br>" + "<b> Days Remaining:</b> " + remDays;
+            deadlinesContainer.append(el);
+            deadlinesContainer.append(sepLine);
+
+
+        }
+    }
+}
+
+function removeReminder(remId) {
+    fetch("https://studentpro-api.herokuapp.com/reminder?stu_id=" + studentId + "&reminder_id=" + remId, {
+        headers: {
+            Accept: "application/json"
+        },
+        method: "DELETE"
+    })
+    document.getElementById("removeBtn" + remId).remove();
+    document.getElementById("reminderText" + remId).remove();
+    document.getElementById("sepLine" + remId).remove();
 }

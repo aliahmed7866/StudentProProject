@@ -69,15 +69,37 @@
              
             </div>
         </a>
-          <a class="col-sm bg-danger text-white" href="https://moodle.mmu.ac.uk/calendar/view.php?view=upcoming">
-            <h4>Deadlines 🕘</h4>
-            <div id="deadlinesContainer">
-           
+        <div class="col-sm bg-danger text-white" >
+          <h4>Set Reminders 🕘</h4>
+     
+            <form onsubmit="return setReminder()">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" >Title: </span>
+              </div>
+              <input type="text" class="form-control" id="reminderTitle" placeholder="Enter the title for your reminder" >
             </div>
-          </a>
+            <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" >Date: </span>
+            </div>
+              <input type="datetime-local" placeholder="Select the deadline date and time" class="form-control" id="reminderDate"aria-describedby="inputGroup-sizing-default">
+              </div>
+              <br><button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
           </div>
         </div>
-      
+        <div class="container-fluid">
+          <div class="row">
+        <div class="col-sm bg-danger text-white" >
+          <h4>Deadlines 🕘</h4>
+          <div id="deadlinesContainer">
+         
+          </div>
+        </div>
+        </div>
+      </div>
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm bg-success text-white">
