@@ -60,3 +60,8 @@ background-color: transparent;
 .teal{
     background-color: rgb(7, 230, 152);
 }
+@media (min-width: 575px) and (max-width: 1000px) {
+    .card-title{
+        font-size: 1.7vw;
+    }
+  }
