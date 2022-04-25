@@ -91,6 +91,12 @@ function getStudentData() {
         })
         .then(response => response.json())
         .then(response => {
+            let studentContainer = document.getElementById("studentContainer");
+            let studentDat = document.createElement("p");
+            studentDat.innerHTML="<b>Name: </b>"+response.first_name + " "+ response.last_name + " ("+response.id+")" +"<br>" +" <b>Institute: </b>"+response.institute;
+            console.log(response);
+            studentContainer.appendChild(studentDat);
+            //studentDat.innerHTML=response.
             timetableEndUrl = 'https://studentpro-api.herokuapp.com/timetable?stu_id=' + studentId + '&limit=10';
             return fetch(timetableEndUrl);
         })
