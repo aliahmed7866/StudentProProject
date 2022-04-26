@@ -8,7 +8,6 @@ from fastapi import FastAPI, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 
-
 db = DB(config.sqlite_db_file)
 
 app = FastAPI(
@@ -17,11 +16,12 @@ app = FastAPI(
     version="0.1.1"
 )
 origins = [
-    #this is currently empty, however, if we host our website then that can be added here
+    # this is currently empty, however, if we host our website then that can be added here
 ]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*'], #the app will currently allow requests from everywhere, this can be changed if we decide to host the website
+    # the app will currently allow requests from everywhere, this can be changed if we decide to host the website
+    allow_origins=['*'],
     allow_credentials=True,
     allow_methods=['GET', 'POST', 'DELETE'],
     allow_headers=["*"],
