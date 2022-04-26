@@ -52,13 +52,16 @@ background-color: transparent;
     margin-bottom:2vh;
 }
 *{
-    
+    user-select: none;
 }
 .orange{
     background-color: rgb(255, 89, 0);
 }
 .teal{
     background-color: rgb(7, 230, 152);
+}
+#mmuHRref, #mmuHRcit{
+    user-select: text;
 }
 @media (min-width: 575px) and (max-width: 1000px) {
     .card-title{
