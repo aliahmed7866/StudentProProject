@@ -82,3 +82,6 @@ class ReminderIn(BaseModel):
 
 class Message(BaseModel):
     detail: str
+
+class Password(BaseModel):
+    password: str

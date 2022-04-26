@@ -71,7 +71,7 @@ class Queries:
                     INNER JOIN reminder AS r
                         ON re.reminder_id = r.id
                     WHERE p.id = ? AND r.time >= datetime('now', '-6 hours')
-                    ORDER BY r.time DESC
+                    ORDER BY r.time ASC
                     LIMIT ?;
                     """
     get_next_reminder_id = """
