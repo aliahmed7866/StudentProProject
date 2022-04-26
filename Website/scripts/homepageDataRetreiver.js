@@ -94,9 +94,7 @@ function getStudentData() {
             let studentContainer = document.getElementById("studentContainer");
             let studentDat = document.createElement("p");
             studentDat.innerHTML="<b>Name: </b>"+response.first_name + " "+ response.last_name + " ("+response.id+")" +"<br>" +" <b>Institute: </b>"+response.institute;
-            console.log(response);
             studentContainer.appendChild(studentDat);
-            //studentDat.innerHTML=response.
             timetableEndUrl = 'https://studentpro-api.herokuapp.com/timetable?stu_id=' + studentId + '&limit=10';
             return fetch(timetableEndUrl);
         })
@@ -163,8 +161,7 @@ function reminderSetup(response) {
             removeBtn.classList.add("btn");
             removeBtn.classList.add("text-danger");
             let time = new Date(response.reminders[i].time);
-            let remDays = time.getDate() - today.getDate();
-            el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" + time.getDate() + "/" + parseInt(time.getMonth()+1) + "/" + time.getFullYear() + " (" + addZero(time.getHours()) + ":"+ addZero(time.getMinutes())+")" + "<br>" + "<b> Days Remaining:</b> " + daysDifference(time) + " Days";
+            el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" + time.toLocaleDateString() + " (" + addZero(time.getHours()) + ":"+ addZero(time.getMinutes())+")" + "<br>" + "<b> Days Remaining:</b> " + daysDifference(time) + " Days";
             reminderId = response.reminders[i].id;
             removeBtn.id = "removeBtn" + reminderId;
             el.id = "reminderText" + reminderId;
@@ -177,7 +174,7 @@ function reminderSetup(response) {
             let el = document.createElement("p");
             let sepLine = document.createElement("hr");
             let time = new Date(response.reminders[i].time); 
-            el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" + time.getDate() + "/" + parseInt(time.getMonth()+1) + "/" + time.getFullYear() + " (" + addZero(time.getHours()) + ":"+ addZero(time.getMinutes())+addTimeUnit(time.getHours())+")" + "<br>" + "<b> Days Remaining:</b> " + daysDifference(time) + " Days";
+            el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" +  time.toLocaleDateString() + " (" + addZero(time.getHours()) + ":"+ addZero(time.getMinutes())+addTimeUnit(time.getHours())+")" + "<br>" + "<b> Days Remaining:</b> " + daysDifference(time) + " Days";
             deadlinesContainer.append(el);
             deadlinesContainer.append(sepLine);
 
