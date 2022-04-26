@@ -154,7 +154,7 @@ function getLatestDate(response) {
 
 function reminderSetup(response) {
     for (i = 0; i < response.reminders.length; i++) {
-        if (response.reminders[i].added_by_user = "true") {
+        if (response.reminders[i].added_by_user == true) {
             let el = document.createElement("p");
             let removeBtn = document.createElement("button");
             let sepLine = document.createElement("hr");
@@ -163,9 +163,8 @@ function reminderSetup(response) {
             removeBtn.classList.add("btn");
             removeBtn.classList.add("text-danger");
             let time = new Date(response.reminders[i].time);
-            let today = new Date();
             let remDays = time.getDate() - today.getDate();
-            el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" + time.getDate() + "/" + time.getMonth() + "/" + time.getFullYear() + " (" + time.getHours() + ":" + time.getMinutes() + ") " + "<br>" + "<b> Days Remaining:</b> " + remDays;
+            el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" + time.getDate() + "/" + parseInt(time.getMonth()+1) + "/" + time.getFullYear() + " (" + addZero(time.getHours()) + ":"+ addZero(time.getMinutes())+")" + "<br>" + "<b> Days Remaining:</b> " + daysDifference(time) + " Days";
             reminderId = response.reminders[i].id;
             removeBtn.id = "removeBtn" + reminderId;
             el.id = "reminderText" + reminderId;
@@ -177,10 +176,8 @@ function reminderSetup(response) {
         } else {
             let el = document.createElement("p");
             let sepLine = document.createElement("hr");
-            let time = new Date(response.reminders[i].time);
-            let today = new Date();
-            let remDays = time.getDate() - today.getDate();
-            el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" + time.getDate() + "/" + time.getMonth() + "/" + time.getFullYear() + "(" + time.getTime + ")" + "<br>" + "<b> Days Remaining:</b> " + remDays;
+            let time = new Date(response.reminders[i].time); 
+            el.innerHTML = "<b>Title:</b> " + response.reminders[i].title + "<br>" + "<b>Due Date: </b>" + time.getDate() + "/" + parseInt(time.getMonth()+1) + "/" + time.getFullYear() + " (" + addZero(time.getHours()) + ":"+ addZero(time.getMinutes())+addTimeUnit(time.getHours())+")" + "<br>" + "<b> Days Remaining:</b> " + daysDifference(time) + " Days";
             deadlinesContainer.append(el);
             deadlinesContainer.append(sepLine);
 
@@ -199,4 +196,30 @@ function removeReminder(remId) {
     document.getElementById("removeBtn" + remId).remove();
     document.getElementById("reminderText" + remId).remove();
     document.getElementById("sepLine" + remId).remove();
+}
+function addZero(d){
+if (d>=0 && d<=9){
+    d="0"+d;
+}
+
+return d;
+}
+
+function addTimeUnit(d){
+    let timeUnit;
+    if (d>=0 && d<=11){
+        timeUnit= " AM";
+    }   
+    else{
+        timeUnit=" PM"
+    }
+    return timeUnit;
+}
+function daysDifference(time){
+    
+    let today = new Date();
+    var one_day = 1000 * 60 * 60 * 24;
+    var Result = Math.round(time.getTime() - today.getTime()) / (one_day);
+    var remDays = Result.toFixed(0);
+    return remDays;
 }
