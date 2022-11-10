@@ -38,7 +38,7 @@ function getDef() {
         //opening the get request and inserting the query word in the url
         xhr.open("GET", 'https://wordsapiv1.p.rapidapi.com/words/' + word + '/definitions');
         xhr.setRequestHeader("X-RapidAPI-Host", "wordsapiv1.p.rapidapi.com");
-        xhr.setRequestHeader("X-RapidAPI-Key", "4f80490d25msh133ceb32ae5ae53p191d07jsnc13a0a1d0105");
+        xhr.setRequestHeader("X-RapidAPI-Key", "API key goes here");
         // sending the request
         xhr.send(data);
     } else { // if the word entered in the text field is not alphabetical, display the error message below
